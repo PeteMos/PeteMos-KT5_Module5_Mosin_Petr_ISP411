@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище EmplModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Emp">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleNameId" Type="int" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Patronymic" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Email" Type="nvarchar" MaxLength="70" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="SeriaOfPassport" Type="int" Nullable="false" />
+    <Property Name="NumberOfPassport" Type="int" Nullable="false" />
+    <Property Name="DateOfBirth" Type="date" Nullable="false" />
+    <Property Name="LastEnter" Type="datetime" Nullable="false" />
+    <Property Name="EnterTypeId" Type="int" />
+    <Property Name="GenderId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Enter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Enter" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Gender">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Gender" Type="nvarchar" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Emp_Enter">
+    <End Role="Enter" Type="Self.Enter" Multiplicity="0..1" />
+    <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Enter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp">
+        <PropertyRef Name="EnterTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_Gender">
+    <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
+    <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Gender">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp">
+        <PropertyRef Name="GenderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp">
+        <PropertyRef Name="RoleNameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище EmplModelContainer">
+    <EntitySet Name="Emp" EntityType="Self.Emp" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Enter" EntityType="Self.Enter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Gender" EntityType="Self.Gender" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Emp_Enter" Association="Self.FK_Emp_Enter">
+      <End Role="Enter" EntitySet="Enter" />
+      <End Role="Emp" EntitySet="Emp" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_Gender" Association="Self.FK_Emp_Gender">
+      <End Role="Gender" EntitySet="Gender" />
+      <End Role="Emp" EntitySet="Emp" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_Role" Association="Self.FK_Emp_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Emp" EntitySet="Emp" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EmplModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Emp">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleNameId" Type="Int32" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="70" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SeriaOfPassport" Type="Int32" Nullable="false" />
+    <Property Name="NumberOfPassport" Type="Int32" Nullable="false" />
+    <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="LastEnter" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EnterTypeId" Type="Int32" />
+    <Property Name="GenderId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Enter" Relationship="Self.FK_Emp_Enter" FromRole="Emp" ToRole="Enter" />
+    <NavigationProperty Name="Gender" Relationship="Self.FK_Emp_Gender" FromRole="Emp" ToRole="Gender" />
+    <NavigationProperty Name="Role" Relationship="Self.FK_Emp_Role" FromRole="Emp" ToRole="Role" />
+  </EntityType>
+  <EntityType Name="Enter">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Enter1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Emp" Relationship="Self.FK_Emp_Enter" FromRole="Enter" ToRole="Emp" />
+  </EntityType>
+  <EntityType Name="Gender">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Gender1" Type="String" MaxLength="1" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Emp" Relationship="Self.FK_Emp_Gender" FromRole="Gender" ToRole="Emp" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Role1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Emp" Relationship="Self.FK_Emp_Role" FromRole="Role" ToRole="Emp" />
+  </EntityType>
+  <Association Name="FK_Emp_Enter">
+    <End Role="Enter" Type="Self.Enter" Multiplicity="0..1" />
+    <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Enter">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp">
+        <PropertyRef Name="EnterTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_Gender">
+    <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
+    <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Gender">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp">
+        <PropertyRef Name="GenderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Emp_Role">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="Emp" Type="Self.Emp" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Emp">
+        <PropertyRef Name="RoleNameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="EmplEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Emp" EntityType="Self.Emp" />
+    <EntitySet Name="Enter" EntityType="Self.Enter" />
+    <EntitySet Name="Gender" EntityType="Self.Gender" />
+    <EntitySet Name="Role" EntityType="Self.Role" />
+    <AssociationSet Name="FK_Emp_Enter" Association="Self.FK_Emp_Enter">
+      <End Role="Enter" EntitySet="Enter" />
+      <End Role="Emp" EntitySet="Emp" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_Gender" Association="Self.FK_Emp_Gender">
+      <End Role="Gender" EntitySet="Gender" />
+      <End Role="Emp" EntitySet="Emp" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Emp_Role" Association="Self.FK_Emp_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Emp" EntitySet="Emp" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
